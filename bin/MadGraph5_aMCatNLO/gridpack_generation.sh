@@ -153,6 +153,9 @@ SYSCALCSOURCE=https://cms-project-generators.web.cern.ch/cms-project-generators/
 
 MGBASEDIRORIG=MG5_aMC_v2_4_2
 
+JHUGENVERSION=v7.1.4
+JHUGENSOURCE=http://spin.pha.jhu.edu/Generator/JHUGenerator.${JHUGENVERSION}.tar.gz
+
 isscratchspace=0
 
 if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
@@ -296,6 +299,21 @@ if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
         cd ..
       fi
     done
+  fi
+
+  if [ -e $CARDSDIR/JHUGen.input ]; then
+    echo "Adding JHUGen decay"
+    (
+      cd $(mktemp -d)
+      wget --no-verbose --no-check-certificate $JHUGENSOURCE
+      tar xvzf JHUGenerator.${JHUGENVERSION}.tar.gz
+      (
+        cd JHUGenerator
+        sed -i -r "s/(linkMELA *= *)Yes/\1No/" makefile
+        make
+      )
+      cp JHUGenerator/JHUGen $(cd -)
+    )
   fi
 
   cd $WORKDIR

@@ -152,6 +152,12 @@ fi
 cd $LHEWORKDIR
 gzip -d ${runname}_final.lhe.gz
 
+if [ -f JHUGen.input ]; then
+  mv ${runname}_final.lhe ${runname}_preJHU.lhe
+  echo "Running the JHUGen decay"
+  ./JHUGen $(cat JHUGen.input) ReadLHE=${runname}_preJHU.lhe DataFile=${runname}_final.lhe Seed=$rnum
+fi
+
 ls -l
 echo
 

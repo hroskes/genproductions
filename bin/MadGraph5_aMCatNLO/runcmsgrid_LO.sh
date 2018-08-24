@@ -142,6 +142,12 @@ cd $LHEWORKDIR
 mv process/events.lhe.gz events_presys.lhe.gz
 gzip -d events_presys.lhe.gz
 
+if [ -f JHUGen.input ]; then
+  mv events_presys.lhe events_presys_preJHU.lhe
+  echo "Running the JHUGen decay"
+  ./JHUGen $(cat JHUGen.input) ReadLHE=events_presys_preJHU.lhe DataFile=events_presys.lhe Seed=$rnum
+fi
+
 echo "
 # Central scale factors
 scalefact:
