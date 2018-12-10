@@ -40,7 +40,8 @@ fastbtlbound 1
 complexpolescheme 1
 
 bornonly 1
-minlo 1
+bornsuppfact 20 ! (default 0d0) mass param for Born suppression factor. If < 0 suppfact = 1
+minlo 0
 minlo_nnll 0
 runningscales 0
 
